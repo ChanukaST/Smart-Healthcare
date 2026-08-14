@@ -8,6 +8,8 @@ target/
 backend/target/
 dist/
 frontend/dist/
+.vite/
+frontend/.vite/
 build/
 *.jar
 *.war
