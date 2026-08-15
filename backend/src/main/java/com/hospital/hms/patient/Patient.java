@@ -1,6 +1,7 @@
 package com.hospital.hms.patient;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,6 +21,7 @@ public class Patient {
     @Column(nullable = false)
     private String fullName;
 
+    private LocalDate dateOfBirth;
     private Integer age;
     private String gender; // MALE, FEMALE, OTHER
     private String phone; // +94 77 123 4567
@@ -62,6 +64,9 @@ public class Patient {
 
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
+
+    public LocalDate getDateOfBirth() { return dateOfBirth; }
+    public void setDateOfBirth(LocalDate dateOfBirth) { this.dateOfBirth = dateOfBirth; }
 
     public Integer getAge() { return age; }
     public void setAge(Integer age) { this.age = age; }
