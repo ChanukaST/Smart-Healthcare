@@ -48,7 +48,7 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin())) // for H2 console
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**", "/api/public/**", "/api/doctors/**", "/api/ml/**", "/h2-console/**", "/error").permitAll()
+                .requestMatchers("/api/auth/**", "/api/public/**", "/api/doctors/**", "/api/patients/**", "/api/users/**", "/api/ml/**", "/h2-console/**", "/error").permitAll()
                 .anyRequest().authenticated()
             );
 

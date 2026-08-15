@@ -1,28 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/common/Navbar';
 import Sidebar from '../../components/common/Sidebar';
-import { Users, Search, Plus, ShieldCheck, UserX, CheckCircle2 } from 'lucide-react';
+import { Users, Search, Plus, ShieldCheck, UserX, CheckCircle2, RefreshCw } from 'lucide-react';
+
+const INITIAL_USERS = [
+  { id: 1, username: 'admin', fullName: 'System Administrator', email: 'admin@careplus.lk', role: 'ROLE_ADMIN', status: 'ACTIVE', createdDate: 'Jan 10, 2025' },
+  { id: 2, username: 'dr_anura', fullName: 'Dr. Anura Perera (Cardiology)', email: 'dr_anura@careplus.lk', role: 'ROLE_DOCTOR', status: 'ACTIVE', createdDate: 'Feb 15, 2025' },
+  { id: 3, username: 'dr_sumudu', fullName: 'Dr. Sumudu Bandara (Pediatrics)', email: 'dr_sumudu@careplus.lk', role: 'ROLE_DOCTOR', status: 'ACTIVE', createdDate: 'Mar 01, 2025' },
+  { id: 4, username: 'dr_wickramasinghe', fullName: 'Dr. K. L. Wickramasinghe (General OPD)', email: 'wickramasinghe@careplus.lk', role: 'ROLE_DOCTOR', status: 'ACTIVE', createdDate: 'Mar 10, 2025' },
+  { id: 5, username: 'dr_priyadarshani', fullName: 'Dr. Priyadarshani Silva (Dermatology)', email: 'priyadarshani@careplus.lk', role: 'ROLE_DOCTOR', status: 'ACTIVE', createdDate: 'Mar 15, 2025' },
+  { id: 6, username: 'dr_rohan', fullName: 'Dr. Rohan Jayawardena (Orthopedics)', email: 'rohan@careplus.lk', role: 'ROLE_DOCTOR', status: 'ACTIVE', createdDate: 'Apr 02, 2025' },
+  { id: 7, username: 'patient_kamani', fullName: 'Kamani Wijesinghe', email: 'patient_kamani@careplus.lk', role: 'ROLE_PATIENT', status: 'ACTIVE', createdDate: 'May 04, 2026' },
+  { id: 8, username: 'int_john', fullName: 'Johnathan Smith', email: 'john@careplus.lk', role: 'ROLE_PATIENT', status: 'ACTIVE', createdDate: 'May 08, 2026' },
+  { id: 9, username: 'lab_nimal', fullName: 'Nimal Fernando (Lab Tech)', email: 'lab_nimal@careplus.lk', role: 'ROLE_LAB_TECH', status: 'ACTIVE', createdDate: 'Feb 20, 2025' },
+  { id: 10, username: 'pharm_saman', fullName: 'Saman Kumara (Pharmacist)', email: 'pharm_saman@careplus.lk', role: 'ROLE_PHARMACIST', status: 'ACTIVE', createdDate: 'Feb 22, 2025' },
+  { id: 11, username: 'receptionist', fullName: 'Kasun Perera (Front Desk)', email: 'reception@careplus.lk', role: 'ROLE_RECEPTIONIST', status: 'ACTIVE', createdDate: 'Jan 15, 2025' },
+  { id: 12, username: 'nurse_priyani', fullName: 'Priyani Jayasinghe (Head Nurse)', email: 'nurse@careplus.lk', role: 'ROLE_NURSE', status: 'ACTIVE', createdDate: 'Jan 18, 2025' }
+];
 
 export const UsersManagement = () => {
   const [roleFilter, setRoleFilter] = useState('ALL');
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [newUser, setNewUser] = useState({ username: '', email: '', role: 'ROLE_DOCTOR', fullName: '' });
+  const [usersList, setUsersList] = useState([]);
 
-  const [usersList, setUsersList] = useState([
-    { id: 1, username: 'admin', fullName: 'System Administrator', email: 'admin@careplus.lk', role: 'ROLE_ADMIN', status: 'ACTIVE', createdDate: 'Jan 10, 2025' },
-    { id: 2, username: 'dr_anura', fullName: 'Dr. Anura Perera (Cardiology)', email: 'dr_anura@careplus.lk', role: 'ROLE_DOCTOR', status: 'ACTIVE', createdDate: 'Feb 15, 2025' },
-    { id: 3, username: 'dr_sumudu', fullName: 'Dr. Sumudu Bandara (Pediatrics)', email: 'dr_sumudu@careplus.lk', role: 'ROLE_DOCTOR', status: 'ACTIVE', createdDate: 'Mar 01, 2025' },
-    { id: 4, username: 'dr_wickramasinghe', fullName: 'Dr. K. L. Wickramasinghe (General OPD)', email: 'wickramasinghe@careplus.lk', role: 'ROLE_DOCTOR', status: 'ACTIVE', createdDate: 'Mar 10, 2025' },
-    { id: 5, username: 'dr_priyadarshani', fullName: 'Dr. Priyadarshani Silva (Dermatology)', email: 'priyadarshani@careplus.lk', role: 'ROLE_DOCTOR', status: 'ACTIVE', createdDate: 'Mar 15, 2025' },
-    { id: 6, username: 'dr_rohan', fullName: 'Dr. Rohan Jayawardena (Orthopedics)', email: 'rohan@careplus.lk', role: 'ROLE_DOCTOR', status: 'ACTIVE', createdDate: 'Apr 02, 2025' },
-    { id: 7, username: 'patient_kamani', fullName: 'Kamani Wijesinghe', email: 'patient_kamani@careplus.lk', role: 'ROLE_PATIENT', status: 'ACTIVE', createdDate: 'May 04, 2026' },
-    { id: 8, username: 'int_john', fullName: 'Johnathan Smith', email: 'john@careplus.lk', role: 'ROLE_PATIENT', status: 'ACTIVE', createdDate: 'May 08, 2026' },
-    { id: 9, username: 'lab_nimal', fullName: 'Nimal Fernando (Lab Tech)', email: 'lab_nimal@careplus.lk', role: 'ROLE_LAB_TECH', status: 'ACTIVE', createdDate: 'Feb 20, 2025' },
-    { id: 10, username: 'pharm_saman', fullName: 'Saman Kumara (Pharmacist)', email: 'pharm_saman@careplus.lk', role: 'ROLE_PHARMACIST', status: 'ACTIVE', createdDate: 'Feb 22, 2025' },
-    { id: 11, username: 'receptionist', fullName: 'Kasun Perera (Front Desk)', email: 'reception@careplus.lk', role: 'ROLE_RECEPTIONIST', status: 'ACTIVE', createdDate: 'Jan 15, 2025' },
-    { id: 12, username: 'nurse_priyani', fullName: 'Priyani Jayasinghe (Head Nurse)', email: 'nurse@careplus.lk', role: 'ROLE_NURSE', status: 'ACTIVE', createdDate: 'Jan 18, 2025' }
-  ]);
+  const loadAllUsers = () => {
+    const localUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
+    const formattedLocal = localUsers.map((u, idx) => ({
+      id: u.id || (1000 + idx),
+      username: u.username || u.email?.split('@')[0] || `user_${idx}`,
+      fullName: u.fullName || u.name || u.email?.split('@')[0] || 'Registered User',
+      email: u.email || 'N/A',
+      role: u.role || 'ROLE_PATIENT',
+      status: u.status || 'ACTIVE',
+      createdDate: u.createdDate || 'Registered Today'
+    }));
+
+    const combined = [...INITIAL_USERS, ...formattedLocal];
+    const seen = new Set();
+    const unique = [];
+
+    for (const u of combined) {
+      const key = (u.email && u.email !== 'N/A') ? u.email.toLowerCase() : u.username.toLowerCase();
+      if (!seen.has(key)) {
+        seen.add(key);
+        unique.push(u);
+      }
+    }
+
+    setUsersList(unique);
+  };
+
+  useEffect(() => {
+    loadAllUsers();
+  }, []);
+
 
   const filteredUsers = usersList.filter(u => {
     const matchRole = roleFilter === 'ALL' || u.role === roleFilter;
