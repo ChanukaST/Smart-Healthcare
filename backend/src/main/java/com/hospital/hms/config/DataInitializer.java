@@ -106,21 +106,25 @@ public class DataInitializer implements CommandLineRunner {
         String defaultPassword = passwordEncoder.encode("password123");
 
         // 1. Users
-        userRepository.save(new User("admin", defaultPassword, "System Administrator", "admin@lankahms.lk", Role.ADMIN));
-        userRepository.save(new User("receptionist", defaultPassword, "Kasun Perera", "reception@lankahms.lk", Role.RECEPTIONIST));
-        User doc1User = userRepository.save(new User("dr_anura", defaultPassword, "Dr. Anura Perera", "anura@lankahms.lk", Role.DOCTOR));
-        User doc2User = userRepository.save(new User("dr_sumudu", defaultPassword, "Dr. Sumudu Bandara", "sumudu@lankahms.lk", Role.DOCTOR));
-        userRepository.save(new User("nurse_priyani", defaultPassword, "Priyani Jayasinghe", "nurse@lankahms.lk", Role.NURSE));
-        userRepository.save(new User("pharmacist_kamal", defaultPassword, "Kamal Silva", "pharmacy@lankahms.lk", Role.PHARMACIST));
-        userRepository.save(new User("lab_nimal", defaultPassword, "Nimal Fernando", "lab@lankahms.lk", Role.LAB_TECHNICIAN));
-        userRepository.save(new User("patient_kamani", defaultPassword, "Kamani Samarasinghe", "kamani@gmail.com", Role.PATIENT));
-        userRepository.save(new User("int_john", defaultPassword, "Johnathan Smith", "john.smith@uk-mail.com", Role.INTERNATIONAL_PATIENT));
+        userRepository.save(new User("admin", defaultPassword, "System Administrator", "admin@careplus.lk", Role.ADMIN));
+        userRepository.save(new User("receptionist", defaultPassword, "Kasun Perera", "reception@careplus.lk", Role.RECEPTIONIST));
+        User doc1User = userRepository.save(new User("dr_anura", defaultPassword, "Dr. Anura Perera", "anura@careplus.lk", Role.DOCTOR));
+        User doc2User = userRepository.save(new User("dr_sumudu", defaultPassword, "Dr. Sumudu Bandara", "sumudu@careplus.lk", Role.DOCTOR));
+        User doc3User = userRepository.save(new User("dr_wickramasinghe", defaultPassword, "Dr. K. L. Wickramasinghe", "wickramasinghe@careplus.lk", Role.DOCTOR));
+        User doc4User = userRepository.save(new User("dr_priyadarshani", defaultPassword, "Dr. Priyadarshani Silva", "priyadarshani@careplus.lk", Role.DOCTOR));
+        User doc5User = userRepository.save(new User("dr_rohan", defaultPassword, "Dr. Rohan Jayawardena", "rohan@careplus.lk", Role.DOCTOR));
+        userRepository.save(new User("nurse_priyani", defaultPassword, "Priyani Jayasinghe", "nurse@careplus.lk", Role.NURSE));
+        userRepository.save(new User("pharmacist_kamal", defaultPassword, "Kamal Silva", "pharmacy@careplus.lk", Role.PHARMACIST));
+        userRepository.save(new User("lab_nimal", defaultPassword, "Nimal Fernando", "lab@careplus.lk", Role.LAB_TECHNICIAN));
+        userRepository.save(new User("patient_kamani", defaultPassword, "Kamani Samarasinghe", "kamani@careplus.lk", Role.PATIENT));
+        userRepository.save(new User("int_john", defaultPassword, "Johnathan Smith", "john.smith@careplus.lk", Role.INTERNATIONAL_PATIENT));
 
         // 2. Departments
         Department depCardio = departmentRepository.save(new Department("Cardiology", "Heart & Cardiovascular Care"));
         Department depPedia = departmentRepository.save(new Department("Pediatrics", "Child Healthcare & Wellness"));
-        departmentRepository.save(new Department("Outpatient Department (OPD)", "General Walk-in Consultations"));
-        departmentRepository.save(new Department("Orthopedics", "Bone & Joint Clinic"));
+        Department depOPD = departmentRepository.save(new Department("General Medicine", "General OPD & Internal Medicine"));
+        Department depDerma = departmentRepository.save(new Department("Dermatology", "Skin & Wellness Clinic"));
+        Department depOrtho = departmentRepository.save(new Department("Orthopedics", "Bone & Joint Clinic"));
 
         // 3. Doctors
         Doctor doc1 = new Doctor("DOC-001", "Dr. Anura Perera", "MBBS, MD (Cardiology)", "Cardiology", 2500.00, "Room 101", "Mon, Wed, Fri (09:00 - 13:00)", depCardio);
@@ -130,6 +134,18 @@ public class DataInitializer implements CommandLineRunner {
         Doctor doc2 = new Doctor("DOC-002", "Dr. Sumudu Bandara", "MBBS, DCH (Pediatrics)", "Pediatrics", 2200.00, "Room 105", "Tue, Thu, Sat (10:00 - 14:00)", depPedia);
         doc2.setUser(doc2User);
         doctorRepository.save(doc2);
+
+        Doctor doc3 = new Doctor("DOC-003", "Dr. K. L. Wickramasinghe", "MBBS, MD (Internal Med)", "General Medicine", 2000.00, "Room 108", "Daily Walk-in (08:30 - 16:00)", depOPD);
+        doc3.setUser(doc3User);
+        doctorRepository.save(doc3);
+
+        Doctor doc4 = new Doctor("DOC-004", "Dr. Priyadarshani Silva", "MBBS, MD (Dermatology)", "Dermatology", 2400.00, "Room 112", "Mon, Thu (13:00 - 18:00)", depDerma);
+        doc4.setUser(doc4User);
+        doctorRepository.save(doc4);
+
+        Doctor doc5 = new Doctor("DOC-005", "Dr. Rohan Jayawardena", "MBBS, MS, FRCS", "Orthopedics", 3000.00, "Room 204", "Tue, Fri (13:00 - 17:00)", depOrtho);
+        doc5.setUser(doc5User);
+        doctorRepository.save(doc5);
 
         // 4. Patients
         Patient p1 = new Patient("PAT-2026-0001", "925143820V", "Kamani Samarasinghe", 34, "FEMALE", "+94 77 123 4567", "No. 45, Galle Road, Bambalapitiya", "Colombo", "O+");

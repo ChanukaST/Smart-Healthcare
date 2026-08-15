@@ -1,0 +1,4 @@
+patient_id,age,blood_pressure_systolic,blood_pressure_diastolic,bmi,glucose_level,risk_category
+1,45,140,90,28.5,135.0,MODERATE
+2,62,165,100,32.1,180.5,HIGH
+3,29,118,78,22.0,92.0,LOW

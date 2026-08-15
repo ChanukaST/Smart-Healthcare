@@ -1,0 +1,4 @@
+feedback_id,patient_id,comment,rating,sentiment
+1,1,The doctor was very attentive and the staff was friendly.,5,POSITIVE
+2,2,Waiting time was a bit long but overall service was acceptable.,3,NEUTRAL
+3,3,Disappointed with the delay in getting my lab results.,2,NEGATIVE
