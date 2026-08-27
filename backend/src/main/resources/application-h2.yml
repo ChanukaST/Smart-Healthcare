@@ -14,3 +14,8 @@ spring:
       ddl-auto: create-drop
     show-sql: false
     database-platform: org.hibernate.dialect.H2Dialect
+
+app:
+  jwt:
+    secret: test_secret_for_h2_profile_needs_to_be_long_enough_for_hmac_sha_test_environment_only
+    expiration: 86400000
