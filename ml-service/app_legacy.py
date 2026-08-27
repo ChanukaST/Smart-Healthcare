@@ -53,15 +53,17 @@ def train_health_risk_model():
     chest_pain = np.random.choice([0, 1], n_samples, p=[0.7, 0.3])
     fever = np.random.choice([0, 1], n_samples, p=[0.6, 0.4])
     
-    risk = []
-    for a, s_bp, bs, cp, f in zip(age, systolic_bp, blood_sugar, chest_pain, fever):
-        score = (s_bp > 140) + (bs > 140) + (cp * 2) + (f * 1) + ((a > 60) * 1)
-        if score >= 3:
-            risk.append("HIGH_RISK")
-        elif score >= 1:
-            risk.append("MODERATE_RISK")
-        else:
-            risk.append("LOW_RISK")
+    scores = (systolic_bp > 140) + (blood_sugar > 140) + (chest_pain * 2) + (fever * 1) + ((age > 60) * 1)
+
+    conditions = [
+        scores >= 3,
+        scores >= 1
+    ]
+    choices = [
+        "HIGH_RISK",
+        "MODERATE_RISK"
+    ]
+    risk = np.select(conditions, choices, default="LOW_RISK").tolist()
             
     X = pd.DataFrame({
         'age': age,
