@@ -1,7 +1,7 @@
 export const validateEmail = (email) => {
   return String(email)
     .toLowerCase()
-    .match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+    .match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/);
 };
 
 export const validateNicPassport = (id) => {
