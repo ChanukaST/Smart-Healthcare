@@ -8,55 +8,60 @@ export const Home = () => {
   const { isAuthenticated } = useAuth();
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
-      <header style={{
-        backgroundColor: 'var(--secondary-teal-light)',
-        padding: '5rem 2rem',
-        textAlign: 'center'
-      }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <h1 style={{ fontSize: '3rem', fontWeight: '800', color: 'var(--primary-blue)', marginBottom: '1rem' }}>
-            Compassionate Care, Better Health
-          </h1>
-          <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', marginBottom: '2rem' }}>
-            Advanced healthcare services powered by intelligent analytics and expert Sri Lankan medical specialists.
-          </p>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-            <Link 
-              to={isAuthenticated ? "/patient/book-appointment" : "/login"} 
-              className="btn btn-primary" 
-              style={{ padding: '0.8rem 2rem' }}
-            >
-              Book Appointment
-            </Link>
-            <Link to="/doctors" className="btn btn-outline" style={{ padding: '0.8rem 2rem' }}>
-              Our Doctors
-            </Link>
-          </div>
-        </div>
-      </header>
 
-      <section className="page-container" style={{ marginTop: '3rem' }}>
-        <div className="grid-cols-4" style={{ textAlign: 'center' }}>
-          <div className="card">
-            <h2 style={{ fontSize: '2rem', color: 'var(--primary-blue)', fontWeight: '800' }}>50+</h2>
-            <p style={{ color: 'var(--text-muted)', fontWeight: '600' }}>Specialist Doctors</p>
+      {/* Hero Section */}
+      <main className="flex-grow">
+        <header className="bg-secondary-light py-20 px-4 sm:px-6 lg:px-8 text-center border-b border-gray-200">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-primary-dark tracking-tight mb-6">
+              Compassionate Care, <br className="hidden sm:block" />
+              <span className="text-secondary">Better Health</span>
+            </h1>
+            <p className="mt-4 text-lg sm:text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
+              Advanced healthcare services powered by intelligent analytics and expert Sri Lankan medical specialists. Providing enterprise-grade care for you and your family.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Link
+                to={isAuthenticated ? "/patient/book-appointment" : "/login"}
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary-dark shadow-md transition-all duration-200"
+              >
+                Book Appointment
+              </Link>
+              <Link
+                to="/doctors"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 shadow-sm transition-all duration-200"
+              >
+                Our Doctors
+              </Link>
+            </div>
           </div>
-          <div className="card">
-            <h2 style={{ fontSize: '2rem', color: 'var(--secondary-teal)', fontWeight: '800' }}>24/7</h2>
-            <p style={{ color: 'var(--text-muted)', fontWeight: '600' }}>Emergency Support</p>
+        </header>
+
+        {/* Stats Section */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+            <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+              <h2 className="text-4xl font-extrabold text-primary mb-2">50+</h2>
+              <p className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Specialist Doctors</p>
+            </div>
+            <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+              <h2 className="text-4xl font-extrabold text-secondary mb-2">24/7</h2>
+              <p className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Emergency Support</p>
+            </div>
+            <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+              <h2 className="text-4xl font-extrabold text-primary mb-2">10+</h2>
+              <p className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Specialized Depts</p>
+            </div>
+            <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+              <h2 className="text-4xl font-extrabold text-secondary mb-2">100k+</h2>
+              <p className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Patients Served</p>
+            </div>
           </div>
-          <div className="card">
-            <h2 style={{ fontSize: '2rem', color: 'var(--primary-blue)', fontWeight: '800' }}>10+</h2>
-            <p style={{ color: 'var(--text-muted)', fontWeight: '600' }}>Specialized Departments</p>
-          </div>
-          <div className="card">
-            <h2 style={{ fontSize: '2rem', color: 'var(--secondary-teal)', fontWeight: '800' }}>100k+</h2>
-            <p style={{ color: 'var(--text-muted)', fontWeight: '600' }}>Patients Served</p>
-          </div>
-        </div>
-      </section>
+        </section>
+      </main>
+
       <Footer />
     </div>
   );

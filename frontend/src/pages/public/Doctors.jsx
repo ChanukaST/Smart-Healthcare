@@ -135,52 +135,47 @@ export const Doctors = () => {
   });
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
 
       {/* Hero Header */}
-      <header style={{
-        backgroundColor: 'var(--secondary-teal-light)',
-        padding: '3.5rem 2rem',
-        textAlign: 'center'
-      }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <h1 style={{ fontSize: '2.5rem', fontWeight: '800', color: 'var(--primary-blue)', marginBottom: '0.75rem' }}>
+      <header className="bg-secondary-light py-14 px-4 sm:px-6 lg:px-8 text-center border-b border-gray-200">
+        <div className="max-w-3xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-primary-dark mb-3">
             Our Specialist Doctors
           </h1>
-          <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', marginBottom: '1.75rem' }}>
+          <p className="text-lg text-gray-600 mb-8">
             Meet our team of renowned Sri Lankan medical consultants, surgeons, and healthcare specialists.
           </p>
 
           {/* Search Input */}
-          <div style={{ maxWidth: '600px', margin: '0 auto', display: 'flex', gap: '0.5rem' }}>
+          <div className="max-w-2xl mx-auto flex shadow-sm rounded-lg overflow-hidden border border-gray-300 bg-white">
+            <div className="px-4 py-3 bg-gray-50 border-r border-gray-300 flex items-center justify-center text-gray-400">
+              <User size={20} />
+            </div>
             <input
               type="text"
               placeholder="Search by doctor name, medical specialty, or department..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{
-                flex: 1,
-                padding: '0.85rem 1.25rem',
-                borderRadius: '8px',
-                border: '1px solid var(--border-color)',
-                fontSize: '0.95rem',
-                boxShadow: 'var(--shadow-sm)'
-              }}
+              className="flex-1 px-4 py-3 outline-none text-gray-700 text-sm placeholder-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary focus:border-primary transition-shadow"
             />
           </div>
         </div>
       </header>
 
       {/* Department Filter Chips */}
-      <section className="page-container" style={{ paddingTop: '2rem', paddingBottom: '3rem' }}>
-        <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', marginBottom: '2rem', justifyContent: 'center' }}>
+      <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+        <div className="flex flex-wrap gap-2 justify-center mb-10">
           {departments.map((dept) => (
             <button
               key={dept}
               onClick={() => setSelectedDept(dept)}
-              className={`btn ${selectedDept === dept ? 'btn-primary' : 'btn-outline'}`}
-              style={{ padding: '0.5rem 1.2rem', fontSize: '0.85rem', borderRadius: '20px' }}
+              className={`px-5 py-2 text-sm font-bold rounded-full transition-all duration-200 shadow-sm ${
+                selectedDept === dept
+                  ? 'bg-primary text-white border-transparent shadow-md'
+                  : 'bg-white text-gray-700 border border-gray-300 hover:border-primary hover:text-primary'
+              }`}
             >
               {dept === 'ALL' ? 'All Specialties' : dept}
             </button>
@@ -188,62 +183,55 @@ export const Doctors = () => {
         </div>
 
         {/* Doctors Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '1.5rem' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((doc) => (
-            <div key={doc.id} className="card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '1.5rem', borderRadius: '12px' }}>
+            <div key={doc.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col justify-between hover:shadow-md transition-shadow">
               <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
-                  <div style={{
-                    width: '46px',
-                    height: '46px',
-                    borderRadius: '10px',
-                    backgroundColor: 'var(--secondary-teal-light)',
-                    color: 'var(--secondary-teal)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
+                <div className="flex justify-between items-start mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-secondary-light text-secondary flex items-center justify-center">
                     <User size={24} />
                   </div>
-                  <span className={`badge ${doc.status === 'Available' ? 'badge-success' : 'badge-warning'}`} style={{ fontSize: '0.75rem' }}>
+                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold border ${doc.status === 'Available' ? 'bg-green-100 text-green-800 border-green-200' : 'bg-yellow-100 text-yellow-800 border-yellow-200'}`}>
                     {doc.status}
                   </span>
                 </div>
 
-                <h3 style={{ fontSize: '1.2rem', fontWeight: '800', color: 'var(--primary-blue)', margin: 0 }}>
+                <h3 className="text-xl font-extrabold text-primary-dark mb-1">
                   {doc.name}
                 </h3>
-                <div style={{ fontSize: '0.85rem', color: '#0d9488', fontWeight: '700', marginTop: '0.2rem' }}>
+                <div className="text-sm font-bold text-secondary mb-1">
                   {doc.department} • {doc.specialization}
                 </div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+                <div className="text-xs text-gray-500 mb-4 font-medium line-clamp-1">
                   {doc.qualifications}
                 </div>
 
-                <div style={{ margin: '1rem 0', padding: '0.75rem', backgroundColor: 'var(--bg-light)', borderRadius: '8px', fontSize: '0.82rem', display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--text-dark)' }}>
-                    <MapPin size={14} color="var(--primary-blue)" /> <span><strong>Clinic:</strong> {doc.room}</span>
+                <div className="bg-gray-50 rounded-lg p-3 space-y-2 mb-5 border border-gray-100">
+                  <div className="flex items-center gap-2 text-sm text-gray-700">
+                    <MapPin size={16} className="text-primary" />
+                    <span><strong className="text-gray-900 font-semibold">Clinic:</strong> {doc.room}</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--text-dark)' }}>
-                    <Clock size={14} color="var(--primary-blue)" /> <span><strong>Hours:</strong> {doc.schedule}</span>
+                  <div className="flex items-center gap-2 text-sm text-gray-700">
+                    <Clock size={16} className="text-primary" />
+                    <span><strong className="text-gray-900 font-semibold">Hours:</strong> {doc.schedule}</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--text-dark)' }}>
-                    <Star size={14} color="#f59e0b" fill="#f59e0b" /> <span><strong>Rating:</strong> {doc.rating} / 5.0 ({doc.reviewsCount} reviews)</span>
+                  <div className="flex items-center gap-2 text-sm text-gray-700">
+                    <Star size={16} className="text-amber-500 fill-amber-500" />
+                    <span><strong className="text-gray-900 font-semibold">Rating:</strong> {doc.rating} / 5.0 ({doc.reviewsCount})</span>
                   </div>
                 </div>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '0.75rem', borderTop: '1px solid var(--border-color)' }}>
+              <div className="flex justify-between items-center pt-4 border-t border-gray-100">
                 <div>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: '700' }}>Consultation Fee</div>
-                  <div style={{ fontSize: '1.05rem', fontWeight: '800', color: 'var(--text-dark)' }}>{doc.fee}</div>
+                  <div className="text-[0.7rem] text-gray-500 uppercase font-bold tracking-wider mb-0.5">Consultation Fee</div>
+                  <div className="text-lg font-extrabold text-gray-900">{doc.fee}</div>
                 </div>
                 <Link 
                   to={isAuthenticated ? "/patient/book-appointment" : "/login"} 
-                  className="btn btn-primary" 
-                  style={{ padding: '0.5rem 1.25rem', fontSize: '0.85rem' }}
+                  className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-bold rounded-md text-white bg-primary hover:bg-primary-dark shadow-sm transition-colors"
                 >
-                  Book Appointment
+                  Book
                 </Link>
               </div>
             </div>
@@ -251,12 +239,12 @@ export const Doctors = () => {
         </div>
 
         {filtered.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '4rem 1rem', color: 'var(--text-muted)' }}>
-            <h3>No doctors found matching "{searchTerm}"</h3>
-            <p>Try searching for a different specialty or clearing your department filter.</p>
+          <div className="text-center py-20 bg-white rounded-xl shadow-sm border border-gray-200">
+            <h3 className="text-xl font-bold text-gray-800 mb-2">No doctors found matching "{searchTerm}"</h3>
+            <p className="text-gray-500">Try searching for a different specialty or clearing your department filter.</p>
           </div>
         )}
-      </section>
+      </main>
 
       <Footer />
     </div>
