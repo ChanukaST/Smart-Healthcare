@@ -121,13 +121,21 @@ public class AuthController {
             }
         }
 
+        if (password == null || password.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Password is required for registration."));
+        }
+
+        if (password.length() < 8) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Password must be at least 8 characters long."));
+        }
+
         if (userRepository.findByUsername(username).isPresent()) {
             return ResponseEntity.badRequest().body(Map.of("message", "Account with this username or email already exists."));
         }
 
         User user = new User();
         user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password != null ? password : "password123"));
+        user.setPassword(passwordEncoder.encode(password));
         user.setFullName(fullName != null ? fullName : username);
         user.setEmail(email);
         user.setRole(Role.PATIENT);
