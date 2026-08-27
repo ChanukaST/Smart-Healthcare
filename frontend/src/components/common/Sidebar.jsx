@@ -40,29 +40,19 @@ export const Sidebar = ({ role = 'patient' }) => {
   const links = role === 'admin' ? adminLinks : role === 'doctor' ? doctorLinks : patientLinks;
 
   return (
-    <aside style={{
-      width: '240px',
-      backgroundColor: '#ffffff',
-      borderRight: '1px solid var(--border-color)',
-      minHeight: 'calc(100vh - 70px)',
-      padding: '1.5rem 1rem'
-    }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+    <aside className="w-64 bg-white border-r border-gray-200 h-full overflow-y-auto hidden md:block shrink-0">
+      <div className="flex flex-col py-6 px-4 space-y-1">
         {links.map((link) => {
           const isActive = location.pathname === link.path;
           return (
             <Link
               key={link.path}
               to={link.path}
-              style={{
-                padding: '0.75rem 1rem',
-                borderRadius: '8px',
-                color: isActive ? 'var(--primary-blue)' : 'var(--text-dark)',
-                backgroundColor: isActive ? 'var(--secondary-teal-light)' : 'transparent',
-                fontWeight: isActive ? '700' : '500',
-                fontSize: '0.9rem',
-                textDecoration: 'none'
-              }}
+              className={`px-4 py-2.5 rounded-lg text-sm transition-colors ${
+                isActive
+                  ? 'bg-secondary-light/40 text-primary-dark font-bold border border-secondary-light'
+                  : 'text-gray-600 font-medium hover:bg-gray-50 hover:text-gray-900 border border-transparent'
+              }`}
             >
               {link.label}
             </Link>
