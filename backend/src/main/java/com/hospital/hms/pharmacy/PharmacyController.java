@@ -129,13 +129,17 @@ public class PharmacyController {
             rx.setStatus(Prescription.PrescriptionStatus.DISPENSED);
 
             // Deduct stock for items
+            List<Medicine> updatedMedicines = new java.util.ArrayList<>();
             for (PrescriptionItem item : rx.getItems()) {
                 Medicine med = item.getMedicine();
                 if (med != null) {
                     int newStock = Math.max(0, med.getTotalStock() - item.getQuantity());
                     med.setTotalStock(newStock);
-                    medicineRepository.save(med);
+                    updatedMedicines.add(med);
                 }
+            }
+            if (!updatedMedicines.isEmpty()) {
+                medicineRepository.saveAll(updatedMedicines);
             }
 
             Prescription saved = prescriptionRepository.save(rx);
