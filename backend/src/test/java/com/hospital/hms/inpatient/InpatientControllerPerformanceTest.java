@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +14,7 @@ import java.util.UUID;
 
 @SpringBootTest
 @ActiveProfiles("h2")
+@SuppressWarnings("null")
 public class InpatientControllerPerformanceTest {
 
     @Autowired

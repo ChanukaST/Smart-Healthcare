@@ -27,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     )
 )
 @AutoConfigureMockMvc(addFilters = false)
+@SuppressWarnings("null")
 public class PatientControllerTest {
 
     @Autowired

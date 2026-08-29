@@ -14,16 +14,14 @@ import com.hospital.hms.common.security.JwtTokenProvider;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import org.springframework.context.annotation.Import;
-import com.hospital.hms.common.security.SecurityConfig;
 
 @WebMvcTest(UserController.class)
 @AutoConfigureMockMvc(addFilters = false) // Disable security filters to simplify the test
+@SuppressWarnings("null")
 public class UserControllerTest {
 
     @Autowired

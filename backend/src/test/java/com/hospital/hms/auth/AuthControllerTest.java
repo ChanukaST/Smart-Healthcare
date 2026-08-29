@@ -2,7 +2,6 @@ package com.hospital.hms.auth;
 
 import com.hospital.hms.common.security.JwtTokenProvider;
 import com.hospital.hms.patient.PatientRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings({"unchecked", "null"})
 public class AuthControllerTest {
 
     @Mock
