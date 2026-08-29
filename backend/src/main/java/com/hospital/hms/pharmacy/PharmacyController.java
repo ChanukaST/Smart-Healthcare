@@ -42,9 +42,8 @@ public class PharmacyController {
 
     @GetMapping("/medicines/low-stock")
     public List<Medicine> getLowStockMedicines() {
-        return medicineRepository.findAll().stream()
-                .filter(m -> m.getTotalStock() <= m.getReorderLevel())
-                .toList();
+        // Optimization: Use database-level query to avoid full table scan
+        return medicineRepository.findLowStockMedicines();
     }
 
     @PostMapping("/medicines")

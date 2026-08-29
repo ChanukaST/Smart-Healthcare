@@ -56,9 +56,9 @@ public class AuthController {
     public ResponseEntity<?> demoLogin(@PathVariable String roleName) {
         try {
             Role role = Role.valueOf(roleName.toUpperCase());
-            Optional<User> userOpt = userRepository.findAll().stream()
-                    .filter(u -> u.getRole() == role)
-                    .findFirst();
+
+            // Optimization: Use database-level query to avoid full table scan
+            Optional<User> userOpt = userRepository.findFirstByRole(role);
 
             if (userOpt.isEmpty()) {
                 return ResponseEntity.badRequest().body(Map.of("message", "No user found for role " + roleName));
