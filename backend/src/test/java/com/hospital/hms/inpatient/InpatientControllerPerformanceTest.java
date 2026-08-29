@@ -14,7 +14,6 @@ import java.util.UUID;
 
 @SpringBootTest
 @ActiveProfiles("h2")
-@SuppressWarnings("null")
 public class InpatientControllerPerformanceTest {
 
     @Autowired
