@@ -1,16 +1,12 @@
 import React from 'react';
 
 export const Footer = () => (
-  <footer style={{
-    textAlign: 'center',
-    padding: '2rem',
-    backgroundColor: '#ffffff',
-    borderTop: '1px solid var(--border-color)',
-    marginTop: '3rem',
-    color: 'var(--text-muted)',
-    fontSize: '0.85rem'
-  }}>
-    <p>© 2026 Smart Sri Lankan Healthcare Management & Analytics Platform. All Rights Reserved.</p>
+  <footer className="bg-white border-t border-gray-200 mt-auto py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p className="text-sm text-gray-500 font-medium">
+        © {new Date().getFullYear()} Smart Sri Lankan Healthcare Management & Analytics Platform. All Rights Reserved.
+      </p>
+    </div>
   </footer>
 );
 

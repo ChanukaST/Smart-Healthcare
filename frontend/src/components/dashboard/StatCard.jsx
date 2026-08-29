@@ -1,26 +1,18 @@
 import React from 'react';
 
 export const StatCard = ({ title, value, change, trend = 'up', icon }) => (
-  <div className="card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.25rem' }}>
+  <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex items-center justify-between hover:shadow-md transition-shadow">
     <div>
-      <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: '600', marginBottom: '0.25rem' }}>{title}</div>
-      <div style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--text-dark)' }}>{value}</div>
+      <div className="text-sm text-gray-500 font-semibold mb-1 uppercase tracking-wider">{title}</div>
+      <div className="text-2xl sm:text-3xl font-extrabold text-gray-900">{value}</div>
       {change && (
-        <div style={{ fontSize: '0.75rem', fontWeight: '700', color: trend === 'up' ? 'var(--primary-blue)' : 'var(--danger)', marginTop: '0.25rem' }}>
+        <div className={`text-xs font-bold mt-1 ${trend === 'up' ? 'text-primary' : 'text-red-500'}`}>
           {change}
         </div>
       )}
     </div>
     {icon && (
-      <div style={{
-        padding: '0.75rem',
-        backgroundColor: 'var(--secondary-teal-light)',
-        color: 'var(--secondary-teal)',
-        borderRadius: '12px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
+      <div className="p-3 bg-secondary-light text-secondary rounded-xl flex items-center justify-center">
         {icon}
       </div>
     )}

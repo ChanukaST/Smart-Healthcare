@@ -92,94 +92,83 @@ export const Departments = () => {
   ];
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
 
       {/* Hero Header */}
-      <header style={{
-        backgroundColor: 'var(--secondary-teal-light)',
-        padding: '3.5rem 2rem',
-        textAlign: 'center'
-      }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <h1 style={{ fontSize: '2.5rem', fontWeight: '800', color: 'var(--primary-blue)', marginBottom: '0.75rem' }}>
+      <header className="bg-secondary-light py-14 px-4 sm:px-6 lg:px-8 text-center border-b border-gray-200">
+        <div className="max-w-3xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-primary-dark mb-4">
             Clinical Departments & Centers
           </h1>
-          <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
+          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
             Explore our specialized clinical departments equipped with cutting-edge medical technologies and dedicated healthcare teams.
           </p>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-            <Link to="/doctors" className="btn btn-outline" style={{ padding: '0.6rem 1.5rem', backgroundColor: '#ffffff' }}>
-              View All Doctors
-            </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link 
               to={isAuthenticated ? "/patient/book-appointment" : "/login"} 
-              className="btn btn-primary" 
-              style={{ padding: '0.6rem 1.5rem' }}
+              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 border border-transparent text-sm font-bold rounded-md text-white bg-primary hover:bg-primary-dark shadow-sm transition-colors"
             >
               Book an Appointment
+            </Link>
+            <Link
+              to="/doctors"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 border border-gray-300 text-sm font-bold rounded-md text-gray-700 bg-white hover:bg-gray-50 shadow-sm transition-colors"
+            >
+              View All Doctors
             </Link>
           </div>
         </div>
       </header>
 
       {/* Departments Grid */}
-      <section className="page-container" style={{ paddingTop: '2.5rem', paddingBottom: '3.5rem' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '1.75rem' }}>
+      <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {departmentsList.map((dept) => (
-            <div key={dept.id} className="card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '1.75rem', borderRadius: '12px' }}>
+            <div key={dept.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col justify-between hover:shadow-md transition-shadow">
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', marginBottom: '0.75rem' }}>
-                  <div style={{
-                    width: '46px',
-                    height: '46px',
-                    borderRadius: '10px',
-                    backgroundColor: 'var(--secondary-teal-light)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0
-                  }}>
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-secondary-light text-secondary flex items-center justify-center flex-shrink-0">
                     {dept.icon}
                   </div>
                   <div>
-                    <h3 style={{ fontSize: '1.2rem', fontWeight: '800', color: 'var(--primary-blue)', margin: 0 }}>
+                    <h3 className="text-xl font-extrabold text-primary-dark leading-tight">
                       {dept.name}
                     </h3>
-                    <span style={{ fontSize: '0.78rem', color: '#0d9488', fontWeight: '700' }}>
+                    <span className="text-sm font-bold text-secondary">
                       Lead: {dept.head}
                     </span>
                   </div>
                 </div>
 
-                <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: '1.45', marginBottom: '1rem' }}>
+                <p className="text-sm text-gray-600 leading-relaxed mb-5 h-16 line-clamp-3">
                   {dept.description}
                 </p>
 
-                <div style={{ backgroundColor: 'var(--bg-light)', padding: '0.85rem', borderRadius: '8px', marginBottom: '1rem' }}>
-                  <div style={{ fontSize: '0.75rem', fontWeight: '700', color: 'var(--primary-blue)', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
+                <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 mb-5">
+                  <div className="text-[0.75rem] font-bold text-primary uppercase tracking-wider mb-2">
                     Key Clinical Services
                   </div>
-                  <ul style={{ paddingLeft: '1.1rem', margin: 0, fontSize: '0.82rem', color: 'var(--text-dark)', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                  <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
                     {dept.services.map((svc, idx) => (
-                      <li key={idx}>{svc}</li>
+                      <li key={idx} className="truncate">{svc}</li>
                     ))}
                   </ul>
                 </div>
 
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                  <span>⏰ <strong>Hours:</strong> {dept.hours}</span>
+                <div className="text-sm text-gray-700 flex items-center gap-2 mb-5">
+                  <Clock size={16} className="text-primary" />
+                  <span><strong className="font-semibold text-gray-900">Hours:</strong> {dept.hours}</span>
                 </div>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '0.75rem', borderTop: '1px solid var(--border-color)' }}>
-                <Link to="/doctors" style={{ fontSize: '0.85rem', color: 'var(--secondary-teal)', fontWeight: '700' }}>
+              <div className="flex justify-between items-center pt-4 border-t border-gray-100">
+                <Link to="/doctors" className="text-sm font-bold text-secondary hover:text-secondary-dark transition-colors">
                   View Specialists &gt;
                 </Link>
                 <Link 
                   to={isAuthenticated ? "/patient/book-appointment" : "/login"} 
-                  className="btn btn-primary" 
-                  style={{ padding: '0.45rem 1.1rem', fontSize: '0.82rem' }}
+                  className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-bold rounded-md text-white bg-primary hover:bg-primary-dark shadow-sm transition-colors"
                 >
                   Book Clinic
                 </Link>
@@ -187,7 +176,7 @@ export const Departments = () => {
             </div>
           ))}
         </div>
-      </section>
+      </main>
 
       <Footer />
     </div>
