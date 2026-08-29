@@ -112,21 +112,21 @@ export const BookAppointment = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
-      <div style={{ display: 'flex' }}>
+      <div className="flex h-[calc(100vh-64px)] overflow-hidden">
         <Sidebar role="patient" />
-        <main className="page-container" style={{ flex: 1, padding: '2rem' }}>
-          <div style={{ marginBottom: '1.5rem' }}>
-            <h2 style={{ fontSize: '1.6rem', fontWeight: '800', color: 'var(--primary-blue)', margin: 0 }}>
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+          <div className="mb-6">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-primary-dark">
               Book an Appointment
             </h2>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '0.25rem' }}>
-              Booking for patient: <strong>{user?.fullName || user?.name || 'Patient'}</strong> (NIC: {user?.nicPassport || '199824510982'})
+            <p className="text-sm text-gray-500 mt-1 font-medium">
+              Booking for patient: <strong className="text-gray-900">{user?.fullName || user?.name || 'Patient'}</strong> (NIC: {user?.nicPassport || '199824510982'})
             </p>
           </div>
           
-          <div className="card" style={{ maxWidth: '850px' }}>
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 max-w-4xl">
             {successMsg ? (
               <div style={{ padding: '2.5rem', textAlign: 'center', background: '#f0fdf4', borderRadius: '12px', border: '1px solid #86efac' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.75rem', color: '#166534' }}>

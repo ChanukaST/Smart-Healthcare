@@ -124,6 +124,7 @@ export const AdminDashboardView = () => {
       if (res.ok) {
         alert(`Ward ${newWard.wardName} created successfully!`);
         setShowAddWardModal(false);
+        setNewWard({ wardName: '', wardCode: '', category: '', dailyRateLkr: 0 });
         fetchAllData();
       }
     } catch (e) {

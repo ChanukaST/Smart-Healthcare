@@ -152,6 +152,7 @@ public class InpatientController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
+    @org.springframework.transaction.annotation.Transactional
     @PostMapping("/discharge-bed/{bedId}")
     public ResponseEntity<?> dischargeBed(@PathVariable Long bedId, @RequestBody(required = false) Map<String, String> request) {
         String summary = (request != null && request.containsKey("dischargeSummary"))
@@ -173,8 +174,8 @@ public class InpatientController {
             adm.setStatus(Admission.AdmissionStatus.DISCHARGED);
             adm.setDischargeDate(LocalDateTime.now());
             adm.setDischargeSummary(summary);
-            admissionRepository.save(adm);
         }
+        admissionRepository.saveAll(activeAdms);
 
         return ResponseEntity.ok(Map.of("message", "Bed discharged and released successfully", "bedId", bedId));
     }
