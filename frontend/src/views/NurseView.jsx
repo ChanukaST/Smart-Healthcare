@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
   HeartPulse, Bed as BedIcon, UserPlus, LogOut, 
   CheckCircle2, AlertCircle, Building2, X 
@@ -47,6 +47,17 @@ export const NurseView = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  // Memoize the mapping from bed ID to admission for O(1) lookup
+  const bedToAdmissionMap = useMemo(() => {
+    const map = new Map();
+    admissions.forEach(adm => {
+      if (adm.bed?.id != null) {
+        map.set(adm.bed.id, adm);
+      }
+    });
+    return map;
+  }, [admissions]);
 
   const handleAdmit = async (e) => {
     e.preventDefault();
@@ -160,7 +171,7 @@ export const NurseView = () => {
                       className={`bed-card ${bed.occupied ? 'occupied' : 'vacant'}`}
                       onClick={() => {
                         if (bed.occupied) {
-                          const adm = admissions.find(a => a.bed?.id === bed.id);
+                          const adm = bedToAdmissionMap.get(bed.id);
                           setSelectedBed(bed);
                           setSelectedAdmission(adm || null);
                           setShowDischargeModal(true);
