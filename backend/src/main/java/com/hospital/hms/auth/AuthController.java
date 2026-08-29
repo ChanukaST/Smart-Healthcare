@@ -56,6 +56,8 @@ public class AuthController {
     public ResponseEntity<?> demoLogin(@PathVariable String roleName) {
         try {
             Role role = Role.valueOf(roleName.toUpperCase());
+
+            // Optimization: Use database-level query to avoid full table scan
             Optional<User> userOpt = userRepository.findFirstByRole(role);
 
             if (userOpt.isEmpty()) {

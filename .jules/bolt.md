@@ -1,3 +1,3 @@
-## 2024-05-18 - Unnecessary table scans in AuthController
-**Learning:** `AuthController.demoLogin` does a full table scan and streams all users into memory by calling `userRepository.findAll().stream().filter(...)` instead of relying on the database to filter by role.
-**Action:** Replace `userRepository.findAll().stream().filter(...)` with a custom query method in `UserRepository` like `findFirstByRole(Role role)` to perform the filtering at the database level.
+## 2026-08-29 - [Avoid In-Memory Filtering for Spring Data JPA]
+**Learning:** In-memory filtering using `.findAll().stream().filter(...)` causes full table scans and leads to significant performance and memory bottlenecks when retrieving large datasets (e.g. low stock medicines or demo user logins).
+**Action:** Always replace in-memory stream filtering with targeted Spring Data JPA queries (e.g., using `@Query` or method naming conventions like `findFirstByRole`) to push the filtering workload to the database level.
