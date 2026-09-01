@@ -12,4 +12,7 @@ public interface MedicineRepository extends JpaRepository<Medicine, Long> {
 
     @Query("SELECT m FROM Medicine m WHERE m.totalStock <= m.reorderLevel")
     List<Medicine> findLowStockMedicines();
+
+    @Query("SELECT COUNT(m) FROM Medicine m WHERE m.totalStock <= m.reorderLevel")
+    long countLowStockMedicines();
 }
