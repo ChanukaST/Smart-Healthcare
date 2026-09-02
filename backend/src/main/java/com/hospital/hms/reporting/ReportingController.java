@@ -51,29 +51,30 @@ public class ReportingController {
     public ResponseEntity<Map<String, Object>> getDashboardStats() {
         Map<String, Object> stats = new HashMap<>();
 
+        // Optimization: Pushed aggregations (count, sum) down to the database level using
+        // specialized repository methods instead of fetching entire tables with findAll()
+        // and doing in-memory streams. This prevents full table scans and drastically reduces memory overhead.
+
         long totalPatients = patientRepository.count();
-        List<QueueToken> todayTokens = queueRepository.findByTokenDateOrderByQueueOrderAsc(LocalDate.now());
-        long opdCount = todayTokens.size();
+        long opdCount = queueRepository.countByTokenDate(LocalDate.now());
 
-        List<Bed> allBeds = bedRepository.findAll();
-        long occupiedBeds = allBeds.stream().filter(Bed::isOccupied).count();
-        double occupancyRate = allBeds.isEmpty() ? 0 : ((double) occupiedBeds / allBeds.size()) * 100;
+        long totalBeds = bedRepository.count();
+        long occupiedBeds = bedRepository.countByIsOccupied(true);
+        double occupancyRate = totalBeds == 0 ? 0 : ((double) occupiedBeds / totalBeds) * 100;
 
-        List<Medicine> medicines = medicineRepository.findAll();
-        long lowStockCount = medicines.stream().filter(m -> m.getTotalStock() <= m.getReorderLevel()).count();
+        long lowStockCount = medicineRepository.countLowStockMedicines();
 
-        List<LabRequest> pendingLabs = labRequestRepository.findByStatusOrderByRequestedDateDesc(LabRequest.RequestStatus.PENDING);
+        long pendingLabsCount = labRequestRepository.countByStatus(LabRequest.RequestStatus.PENDING);
 
-        List<Invoice> paidInvoices = invoiceRepository.findByStatus(Invoice.InvoiceStatus.PAID);
-        double totalRevenueLkr = paidInvoices.stream().mapToDouble(Invoice::getTotalAmountLkr).sum();
+        Double totalRevenueLkr = invoiceRepository.sumTotalAmountLkrByStatus(Invoice.InvoiceStatus.PAID);
 
         stats.put("totalPatients", totalPatients);
         stats.put("todayOpdCount", opdCount);
-        stats.put("totalBeds", allBeds.size());
+        stats.put("totalBeds", totalBeds);
         stats.put("occupiedBeds", occupiedBeds);
         stats.put("bedOccupancyPercentage", Math.round(occupancyRate * 10.0) / 10.0);
         stats.put("lowStockCount", lowStockCount);
-        stats.put("pendingLabRequestsCount", pendingLabs.size());
+        stats.put("pendingLabRequestsCount", pendingLabsCount);
         stats.put("totalRevenueLkr", Math.round(totalRevenueLkr * 100.0) / 100.0);
 
         return ResponseEntity.ok(stats);
