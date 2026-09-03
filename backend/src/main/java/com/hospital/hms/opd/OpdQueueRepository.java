@@ -8,4 +8,5 @@ public interface OpdQueueRepository extends JpaRepository<QueueToken, Long> {
     List<QueueToken> findByTokenDateOrderByQueueOrderAsc(LocalDate tokenDate);
     List<QueueToken> findByDoctorIdAndTokenDateOrderByQueueOrderAsc(Long doctorId, LocalDate tokenDate);
     long countByDoctorIdAndTokenDate(Long doctorId, LocalDate tokenDate);
+    long countByTokenDate(LocalDate tokenDate);
 }
