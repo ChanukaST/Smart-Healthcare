@@ -6,4 +6,5 @@ import java.util.List;
 public interface LabRequestRepository extends JpaRepository<LabRequest, Long> {
     List<LabRequest> findByStatusOrderByRequestedDateDesc(LabRequest.RequestStatus status);
     List<LabRequest> findByPatientIdOrderByRequestedDateDesc(Long patientId);
+    long countByStatus(LabRequest.RequestStatus status);
 }
