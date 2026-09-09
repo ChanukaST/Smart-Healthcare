@@ -1,6 +1,7 @@
 package com.hospital.hms.billing;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,4 +9,7 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     List<Invoice> findByPatientId(Long patientId);
     List<Invoice> findByStatus(Invoice.InvoiceStatus status);
     Optional<Invoice> findByInvoiceNumber(String invoiceNumber);
+
+    @Query("SELECT COALESCE(SUM(i.totalAmountLkr), 0.0) FROM Invoice i WHERE i.status = ?1")
+    double sumTotalAmountLkrByStatus(Invoice.InvoiceStatus status);
 }
