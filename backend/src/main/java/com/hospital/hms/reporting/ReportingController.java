@@ -2,14 +2,12 @@ package com.hospital.hms.reporting;
 
 import com.hospital.hms.billing.Invoice;
 import com.hospital.hms.billing.InvoiceRepository;
-import com.hospital.hms.inpatient.Bed;
 import com.hospital.hms.inpatient.BedRepository;
 import com.hospital.hms.laboratory.LabRequest;
 import com.hospital.hms.laboratory.LabRequestRepository;
 import com.hospital.hms.opd.OpdQueueRepository;
 import com.hospital.hms.opd.QueueToken;
 import com.hospital.hms.patient.PatientRepository;
-import com.hospital.hms.pharmacy.Medicine;
 import com.hospital.hms.pharmacy.MedicineRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
