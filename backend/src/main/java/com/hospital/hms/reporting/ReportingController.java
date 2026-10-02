@@ -52,8 +52,10 @@ public class ReportingController {
         Map<String, Object> stats = new HashMap<>();
 
         long totalPatients = patientRepository.count();
-        List<QueueToken> todayTokens = queueRepository.findByTokenDateOrderByQueueOrderAsc(LocalDate.now());
-        long opdCount = todayTokens.size();
+        // Bolt performance improvement:
+        // Replaced fetching full list and calculating size with a database level count query
+        // This prevents transferring unnecessary data across the network and allocating memory for large lists.
+        long opdCount = queueRepository.countByTokenDate(LocalDate.now());
 
         long totalBeds = bedRepository.count();
         long occupiedBeds = bedRepository.countByIsOccupied(true);
