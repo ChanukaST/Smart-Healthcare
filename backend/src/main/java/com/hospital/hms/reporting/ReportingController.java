@@ -52,8 +52,9 @@ public class ReportingController {
         Map<String, Object> stats = new HashMap<>();
 
         long totalPatients = patientRepository.count();
-        List<QueueToken> todayTokens = queueRepository.findByTokenDateOrderByQueueOrderAsc(LocalDate.now());
-        long opdCount = todayTokens.size();
+
+        // Optimization: Use database-level count query instead of fetching all records and counting in memory
+        long opdCount = queueRepository.countByTokenDate(LocalDate.now());
 
         long totalBeds = bedRepository.count();
         long occupiedBeds = bedRepository.countByIsOccupied(true);
