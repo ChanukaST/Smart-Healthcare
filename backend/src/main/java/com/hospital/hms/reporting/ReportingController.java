@@ -7,7 +7,6 @@ import com.hospital.hms.inpatient.BedRepository;
 import com.hospital.hms.laboratory.LabRequest;
 import com.hospital.hms.laboratory.LabRequestRepository;
 import com.hospital.hms.opd.OpdQueueRepository;
-import com.hospital.hms.opd.QueueToken;
 import com.hospital.hms.patient.PatientRepository;
 import com.hospital.hms.pharmacy.Medicine;
 import com.hospital.hms.pharmacy.MedicineRepository;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -52,8 +50,10 @@ public class ReportingController {
         Map<String, Object> stats = new HashMap<>();
 
         long totalPatients = patientRepository.count();
-        List<QueueToken> todayTokens = queueRepository.findByTokenDateOrderByQueueOrderAsc(LocalDate.now());
-        long opdCount = todayTokens.size();
+
+        // ⚡ Bolt: Used countByTokenDate instead of fetching the entire list into memory
+        // This avoids N+1 problems and high memory usage for simple counting operations
+        long opdCount = queueRepository.countByTokenDate(LocalDate.now());
 
         long totalBeds = bedRepository.count();
         long occupiedBeds = bedRepository.countByIsOccupied(true);
