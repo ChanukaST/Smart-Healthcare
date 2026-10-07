@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Navbar from '../../components/common/Navbar';
 import Footer from '../../components/common/Footer';
 import { Link } from 'react-router-dom';
@@ -126,13 +126,16 @@ export const Doctors = () => {
 
   const departments = ['ALL', 'Cardiology', 'Pediatrics', 'General Medicine', 'Dermatology', 'Orthopedics', 'Neurology'];
 
-  const filtered = doctorsList.filter(doc => {
-    const matchSearch = doc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        doc.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        doc.specialization.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchDept = selectedDept === 'ALL' || doc.department.toLowerCase() === selectedDept.toLowerCase();
-    return matchSearch && matchDept;
-  });
+  // ⚡ Bolt: Memoize the filtered list to prevent unnecessary recalculations on re-renders
+  const filtered = useMemo(() => {
+    return doctorsList.filter(doc => {
+      const matchSearch = doc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          doc.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          doc.specialization.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchDept = selectedDept === 'ALL' || doc.department.toLowerCase() === selectedDept.toLowerCase();
+      return matchSearch && matchDept;
+    });
+  }, [doctorsList, searchTerm, selectedDept]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
