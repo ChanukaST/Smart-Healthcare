@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Users, Stethoscope, DollarSign, Activity, AlertTriangle, 
   Building2, UserPlus, RefreshCw, CheckCircle2, X, ShieldCheck, 
@@ -28,6 +28,21 @@ export const AdminDashboardView = () => {
 
   const token = localStorage.getItem('hms_token');
   const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` };
+
+  // Memoize beds grouped by ward ID for O(1) lookup
+  const bedsByWard = useMemo(() => {
+    const map = new Map();
+    beds.forEach(bed => {
+      if (bed.ward?.id != null) {
+        const wardId = bed.ward.id;
+        if (!map.has(wardId)) {
+          map.set(wardId, []);
+        }
+        map.get(wardId).push(bed);
+      }
+    });
+    return map;
+  }, [beds]);
 
   const fetchAllData = async () => {
     try {
@@ -343,7 +358,7 @@ export const AdminDashboardView = () => {
           </div>
 
           {wards.map(ward => {
-            const wardBeds = beds.filter(b => b.ward?.id === ward.id);
+            const wardBeds = bedsByWard.get(ward.id) || [];
             return (
               <div key={ward.id} className="card">
                 <div className="card-header-clean">
