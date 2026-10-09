@@ -59,6 +59,20 @@ export const NurseView = () => {
     return map;
   }, [admissions]);
 
+  // Memoize beds grouping by wardId to replace O(N) array filter within O(N) map
+  const bedsByWardMap = useMemo(() => {
+    const map = new Map();
+    beds.forEach(bed => {
+      if (bed.ward?.id != null) {
+        if (!map.has(bed.ward.id)) {
+          map.set(bed.ward.id, []);
+        }
+        map.get(bed.ward.id).push(bed);
+      }
+    });
+    return map;
+  }, [beds]);
+
   const handleAdmit = async (e) => {
     e.preventDefault();
     if (!selectedBed || !admitForm.patientId) return;
@@ -151,7 +165,7 @@ export const NurseView = () => {
       {activeTab === 'BED_MAP' && (
         <div>
           {wards.map(ward => {
-            const wardBeds = beds.filter(b => b.ward?.id === ward.id);
+            const wardBeds = bedsByWardMap.get(ward.id) || [];
             return (
               <div key={ward.id} className="card">
                 <div className="card-header-clean">
