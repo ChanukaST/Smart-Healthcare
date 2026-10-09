@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Users, Stethoscope, DollarSign, Activity, AlertTriangle, 
   Building2, UserPlus, RefreshCw, CheckCircle2, X, ShieldCheck, 
@@ -54,6 +54,20 @@ export const AdminDashboardView = () => {
   useEffect(() => {
     fetchAllData();
   }, []);
+
+  // Memoize beds grouping by wardId to replace O(N) array filter within O(N) map
+  const bedsByWardMap = useMemo(() => {
+    const map = new Map();
+    beds.forEach(bed => {
+      if (bed.ward?.id != null) {
+        if (!map.has(bed.ward.id)) {
+          map.set(bed.ward.id, []);
+        }
+        map.get(bed.ward.id).push(bed);
+      }
+    });
+    return map;
+  }, [beds]);
 
   // --- Handlers for User / Role Management ---
   const handleCreateUser = async (e) => {
@@ -343,7 +357,7 @@ export const AdminDashboardView = () => {
           </div>
 
           {wards.map(ward => {
-            const wardBeds = beds.filter(b => b.ward?.id === ward.id);
+            const wardBeds = bedsByWardMap.get(ward.id) || [];
             return (
               <div key={ward.id} className="card">
                 <div className="card-header-clean">
